@@ -1,61 +1,221 @@
-// src/app/page.tsx
+// src/app/page.tsx - Versión Profesional Ultra Premium
 'use client';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Image from 'next/image'
+
+// Tipos Ultra Profesionales
+interface WhatsAppButtonProps {
+  children: React.ReactNode;
+  className?: string;
+  'aria-label'?: string;
+}
+
+interface StatCardData {
+  number: string;
+  label: string;
+  delay: number;
+}
+
+interface ServiceItemData {
+  title: string;
+  description: string;
+  features?: string[];
+}
+
+interface ServiceCategoryData {
+  title: string;
+  description: string;
+  items: ServiceItemData[];
+}
+
+interface TestimonialData {
+  text: string;
+  author: string;
+  delay: number;
+}
+
+interface PremiumFeatureData {
+  title: string;
+  description: string;
+}
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    setIsLoaded(true)
-    return () => window.removeEventListener('scroll', handleScroll)
+  // Manejo ultra optimizado del scroll
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY
+    setScrollY(currentScrollY)
   }, [])
 
-  type WhatsAppButtonProps = {
-    children: React.ReactNode;
-    className?: string;
-  };
+  useEffect(() => {
+    // Configuración de performance para scroll
+    let ticking = false
 
-  const WhatsAppButton = ({ children, className = "" }: WhatsAppButtonProps) => (
+    const handleScrollOptimized = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', handleScrollOptimized, { passive: true })
+
+    return () => window.removeEventListener('scroll', handleScrollOptimized)
+  }, [handleScroll])
+
+  // Manejo inteligente del menú móvil
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+      if (mobileMenuOpen && !target.closest('.mobile-menu-premium') && !target.closest('.mobile-menu-toggle')) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false)
+      }
+    }
+
+    if (mobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('keydown', handleEscapeKey)
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('keydown', handleEscapeKey)
+      document.body.style.overflow = 'unset'
+    }
+  }, [mobileMenuOpen])
+
+  // Componente WhatsApp Button Ultra Premium
+  const WhatsAppButton = ({ children, className = "", 'aria-label': ariaLabel }: WhatsAppButtonProps) => (
     <a
-      href="https://wa.me/613121466"
+      href="https://wa.me/613121466?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20los%20servicios%20de%20ProyectoCEO%20y%20solicitar%20informaci%C3%B3n%20sobre%20el%20programa%20que%20mejor%20se%20adapte%20a%20mi%20empresa."
       target="_blank"
       rel="noopener noreferrer"
       className={`btn-whatsapp-premium ${className}`}
+      aria-label={ariaLabel || "Contactar por WhatsApp para información y consulta"}
     >
       {children}
     </a>
   )
 
+  // Datos estructurados ultra profesionales
+  const statsData: StatCardData[] = useMemo(() => [
+    { number: "50+", label: "Empresas Transformadas", delay: 0 },
+    { number: "95%", label: "Tasa de Éxito", delay: 200 },
+    { number: "50%", label: "Reducción Operativa Promedio", delay: 400 }
+  ], [])
+
+  const servicesData: ServiceCategoryData[] = useMemo(() => [
+    {
+      title: "Asesoramiento Personalizado",
+      description: "Sesiones de trabajo estratégico diseñadas para sacarte del bucle operativo y convertirte en el verdadero CEO de tu empresa.",
+      items: [
+        {
+          title: "Análisis Estratégico Empresarial",
+          description: "Diagnóstico completo de la situación actual de tu empresa. Identificación de oportunidades ocultas y hoja de ruta personalizada.",
+          features: ["Sesión individual de 1.5 horas", "Plan de acción inmediato", "Seguimiento durante 7 días"]
+        },
+        {
+          title: "Experiencia Cliente 360°",
+          description: "Sistema de experiencia del cliente que genere recomendaciones automáticas para destacar por algo más que tu servicio técnico.",
+          features: ["Sesión individual de 2 horas", "Mapeo completo del customer journey", "Checklist de implementación"]
+        },
+        {
+          title: "Mentalidad CEO Intensiva",
+          description: "Intensivo de 5 días para desarrollar mentalidad estratégica y convertirte en verdadero líder empresarial.",
+          features: ["5 días consecutivos (1 hora diaria)", "Test de mentalidad empresarial", "Plan personal de desarrollo"]
+        },
+        {
+          title: "Pack Completo de Asesoramientos",
+          description: "Todos los asesoramientos incluidos con el Análisis Estratégico GRATIS. Transformación integral completa.",
+          features: ["Los 3 asesoramientos anteriores", "Análisis Estratégico gratuito", "Transformación integral"]
+        }
+      ]
+    },
+    {
+      title: "Formaciones Especializadas",
+      description: "Formaciones diseñadas para transformar a tu equipo en profesionales que piensan y actúan como dueños, no como empleados.",
+      items: [
+        {
+          title: "Masterclass de Ventas y Ventas Adicionales",
+          description: "Convierte a tu equipo en vendedores que aman lo que hacen. Técnicas de venta consultiva sin presión comercial.",
+          features: ["Formación individual o grupal", "Modalidades desde 2 hasta 20+ personas", "Role-playing y casos prácticos", "Técnicas de venta consultiva"]
+        },
+        {
+          title: "Sé el Verdadero Líder de tu Equipo",
+          description: "De jefe que da órdenes a líder que inspira resultados. Desarrollo de liderazgo auténtico que genera respeto genuino.",
+          features: ["Formación individual o grupal", "Modalidades desde 2 hasta 20+ personas", "Taller práctico de liderazgo", "Herramientas de motivación"]
+        },
+        {
+          title: "Pack CEO de Impacto",
+          description: "Liderazgo + Ventas Individual. Conviértete en el CEO que tu negocio necesita y genera el impacto que tu mercado está esperando.",
+          features: ["Liderazgo individual completo", "Ventas individual completo", "Descuento especial aplicado", "Transformación integral"]
+        }
+      ]
+    }
+  ], [])
+
+  const testimonialsData: TestimonialData[] = useMemo(() => [
+    { text: "Ahora sé qué servicios me hacen perder dinero y cuáles potenciar.", author: "Empresario del sector servicios", delay: 0 },
+    { text: "Por fin tengo tiempo para pensar como dueño y no como empleado.", author: "CEO transformado", delay: 200 },
+    { text: "Mi equipo está más motivado y mis clientes más fieles.", author: "Líder empresarial", delay: 400 }
+  ], [])
+
+  const premiumFeatures: PremiumFeatureData[] = useMemo(() => [
+    { title: "Acompañamiento personalizado", description: "Adaptado específicamente a las necesidades de TU negocio" },
+    { title: "Formaciones semanales", description: "Con contenido exclusivo y aplicación inmediata" },
+    { title: "Intensivos estratégicos", description: "Para abordar los puntos críticos de tu transformación" },
+    { title: "Seguimiento diario", description: "Cuando lo necesites - No estarás solo en este proceso" },
+    { title: "Revisión mensual", description: "De resultados y ajuste de estrategias según los datos reales" },
+    { title: "Material exclusivo", description: "Y plantillas de trabajo probadas en cientos de negocios" }
+  ], [])
+
+  // Función para manejar navegación suave
+  const handleSmoothScroll = useCallback((targetId: string) => {
+    const element = document.getElementById(targetId)
+    if (element) {
+      const offsetTop = element.offsetTop - 100
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      })
+    }
+    setMobileMenuOpen(false)
+  }, [])
+
   return (
     <div className="main-container">
-      {/* Animated Background */}
-      <div className="animated-background">
-        <div className="floating-shapes">
-          <div className="shape shape-1"></div>
-          <div className="shape shape-2"></div>
-          <div className="shape shape-3"></div>
-          <div className="shape shape-4"></div>
-          <div className="shape shape-5"></div>
-        </div>
-      </div>
-
-      {/* Navigation */}
-      <nav className={`navbar-premium ${scrollY > 50 ? 'navbar-scrolled' : ''}`}>
+      {/* Navigation Ultra Premium */}
+      <nav
+        className={`navbar-premium ${scrollY > 50 ? 'navbar-scrolled' : ''}`}
+        role="navigation"
+        aria-label="Navegación principal ProyectoCEO"
+      >
         <div className="container">
           <div className="logo-container">
             <div className="logo-image-container">
               <Image
                 src="/logo-proyectoceo.png"
-                alt="ProyectoCEO Logo"
+                alt="ProyectoCEO - Consultoría empresarial para transformación de PYMES"
                 className="logo-image"
-                width={60}
-                height={60}
+                width={56}
+                height={56}
                 priority
+                sizes="56px"
+                quality={95}
               />
             </div>
             <div className="logo-text-container">
@@ -64,466 +224,368 @@ export default function Home() {
             </div>
           </div>
 
-          <ul className="nav-links-premium">
-            <li><a href="#diagnostico" className="nav-link">Diagnóstico</a></li>
-            <li><a href="#programa" className="nav-link">Programa</a></li>
-            <li><a href="#testimonios" className="nav-link">Testimonios</a></li>
+          <ul className="nav-links-premium" role="menubar">
+            <li role="none">
+              <button
+                onClick={() => handleSmoothScroll('servicios')}
+                className="nav-link"
+                role="menuitem"
+                type="button"
+              >
+                Servicios
+              </button>
+            </li>
+            <li role="none">
+              <button
+                onClick={() => handleSmoothScroll('programa-premium')}
+                className="nav-link"
+                role="menuitem"
+                type="button"
+              >
+                Programa Premium
+              </button>
+            </li>
+            <li role="none">
+              <button
+                onClick={() => handleSmoothScroll('testimonios')}
+                className="nav-link"
+                role="menuitem"
+                type="button"
+              >
+                Testimonios
+              </button>
+            </li>
           </ul>
 
           <button
             className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Menú móvil"
+            onClick={(e) => {
+              e.stopPropagation()
+              setMobileMenuOpen(!mobileMenuOpen)
+            }}
+            aria-label={mobileMenuOpen ? "Cerrar menú de navegación móvil" : "Abrir menú de navegación móvil"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            type="button"
           >
             <span></span>
             <span></span>
             <span></span>
           </button>
 
-          <WhatsAppButton className="whatsapp-desktop">
-            <span className="whatsapp-icon">💬</span>
-            <span>WhatsApp</span>
+          <WhatsAppButton
+            className="whatsapp-desktop"
+            aria-label="Contactar por WhatsApp - Versión escritorio"
+          >
+            <span>Contactar</span>
           </WhatsAppButton>
 
-          <WhatsAppButton className="whatsapp-mobile">
-            💬
+          <WhatsAppButton
+            className="whatsapp-mobile"
+            aria-label="Contactar por WhatsApp - Versión móvil"
+          >
+            <span>WhatsApp</span>
           </WhatsAppButton>
         </div>
 
+        {/* Mobile Menu Ultra Premium */}
         {mobileMenuOpen && (
-          <div className="mobile-menu-premium">
-            <a href="#diagnostico" onClick={() => setMobileMenuOpen(false)}>
-              <span className="menu-icon">📊</span>
-              Diagnóstico
-            </a>
-            <a href="#programa" onClick={() => setMobileMenuOpen(false)}>
-              <span className="menu-icon">🎯</span>
-              Programa
-            </a>
-            <a href="#testimonios" onClick={() => setMobileMenuOpen(false)}>
-              <span className="menu-icon">⭐</span>
+          <div
+            className="mobile-menu-premium"
+            id="mobile-menu"
+            role="menu"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => handleSmoothScroll('servicios')}
+              role="menuitem"
+              type="button"
+              className="nav-link"
+            >
+              Servicios
+            </button>
+            <button
+              onClick={() => handleSmoothScroll('programa-premium')}
+              role="menuitem"
+              type="button"
+              className="nav-link"
+            >
+              Programa Premium
+            </button>
+            <button
+              onClick={() => handleSmoothScroll('testimonios')}
+              role="menuitem"
+              type="button"
+              className="nav-link"
+            >
               Testimonios
-            </a>
-            <WhatsAppButton>
-              <span className="whatsapp-icon">💬</span>
-              Contactar por WhatsApp
+            </button>
+            <WhatsAppButton aria-label="Contactar por WhatsApp desde menú móvil">
+              Contactar Ahora
             </WhatsAppButton>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero-premium">
-        <div className="hero-particles">
-          <div className="particle"></div>
-          <div className="particle"></div>
-          <div className="particle"></div>
-          <div className="particle"></div>
-          <div className="particle"></div>
-        </div>
-
+      {/* Hero Section Ultra Premium */}
+      <section className="hero-premium" role="banner">
         <div className="container">
-          <div className={`hero-content ${isLoaded ? 'hero-loaded' : ''}`}>
+          <div className="hero-content">
             <div className="hero-badge-premium">
-              <span className="badge-icon">🚀</span>
               <span className="badge-text">Transformación Empresarial Garantizada</span>
-              <div className="badge-glow"></div>
             </div>
 
             <h2 className="hero-title-premium">
-              <span className="title-line">Deja de ser el</span>
+              <span className="title-line">De jefe operativo a</span>
+              <br />
               <span className="title-highlight">
-                <span className="highlight-text">operario</span>
-                <div className="highlight-underline"></div>
+                <span className="highlight-text">líder estratégico</span>
               </span>
-              <span className="title-line">de tu empresa</span>
             </h2>
 
             <p className="hero-subtitle-premium">
-              Conviértete en un verdadero empresario: <span className="text-gold-premium">más beneficios, más libertad, menos carga operativa.</span>
-              <br />
-              Con acompañamiento real para aumentar tus beneficios y delegar el <span className="text-blue-premium">50% de lo operativo en 1 año.</span>
+              Reducimos tu carga operativa en un <span className="text-gold-premium">50%</span>, aumentamos tu facturación y
+              creamos sistemas que funcionen sin ti. <span className="text-blue-premium">Asesoramiento personalizado, formaciones especializadas y programa premium</span> para empresarios comprometidos con la transformación.
             </p>
 
             <div className="hero-cta-premium">
-              <WhatsAppButton className="btn-cta-main">
-                <span className="cta-icon">📞</span>
-                <span className="cta-text">Agendar diagnóstico gratuito</span>
-                <div className="cta-shine"></div>
+              <WhatsAppButton
+                className="btn-cta-main"
+                aria-label="Solicitar información y consulta por WhatsApp"
+              >
+                <span>Solicitar Información</span>
               </WhatsAppButton>
             </div>
 
             <div className="hero-stats-premium">
-              <div className="stat-card">
-                <div className="stat-number">50+</div>
-                <div className="stat-label">Empresas Transformadas</div>
-                <div className="stat-icon">🏢</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">95%</div>
-                <div className="stat-label">Tasa de Éxito</div>
-                <div className="stat-icon">📈</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">50%</div>
-                <div className="stat-label">Reducción Operativa</div>
-                <div className="stat-icon">⚡</div>
-              </div>
+              {statsData.map((stat, index) => (
+                <article
+                  key={`stat-${index}`}
+                  className="stat-card"
+                  style={{ animationDelay: `${stat.delay}ms` }}
+                >
+                  <div className="stat-number" aria-label={`${stat.number} ${stat.label}`}>
+                    {stat.number}
+                  </div>
+                  <div className="stat-label">{stat.label}</div>
+                </article>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="section-premium about-section">
+      {/* Services Section Ultra Premium */}
+      <section id="servicios" className="section-premium services-section">
         <div className="container">
           <div className="section-content">
             <div className="section-badge">
-              <span className="badge-icon">🔹</span>
-              <span>Conoce el equipo</span>
+              <span>Nuestros Servicios</span>
             </div>
 
             <h3 className="section-title">
-              ¿Quién está detrás de <span className="text-gradient-premium">ProyectoCEO</span>?
+              Catálogo completo de <span className="text-gradient-premium">soluciones empresariales</span>
             </h3>
 
-            <div className="about-content">
-              <p className="about-text">
-                En ProyectoCEO ayudamos a dueños de pequeñas empresas del sector servicios que están atrapados en la rutina diaria.
-                Te acompañamos en un proceso real para que dejes de operar y empieces a dirigir tu empresa con claridad, estrategia y resultados.
-              </p>
+            <p className="section-subtitle">
+              Desde asesoramiento personalizado hasta formaciones especializadas para tu equipo.
+              Cada servicio está diseñado para atacar problemas específicos que mantienen a los empresarios
+              atrapados en lo operativo.
+            </p>
+          </div>
 
-              <div className="highlight-card">
-                <div className="highlight-icon">🎯</div>
-                <div className="highlight-content">
-                  <h4>Nuestro objetivo:</h4>
-                  <p>que en 1 año puedas <span className="text-gold-premium">multiplicar tu rentabilidad y liberar el 50% de tus tareas operativas.</span></p>
+          <div className="services-grid">
+            {servicesData.map((category, categoryIndex) => (
+              <article key={`category-${categoryIndex}`} className="service-category">
+                <h4>{category.title}</h4>
+                <p>{category.description}</p>
+
+                <div className="service-items">
+                  {category.items.map((item, itemIndex) => (
+                    <div key={`item-${categoryIndex}-${itemIndex}`} className="service-item">
+                      <h5>{item.title}</h5>
+                      <div className="description">{item.description}</div>
+                      {item.features && (
+                        <div className="service-features">
+                          <ul>
+                            {item.features.map((feature, featureIndex) => (
+                              <li key={featureIndex}>{feature}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
+              </article>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-16)' }}>
+            <WhatsAppButton
+              className="btn-cta-main"
+              aria-label="Consultar servicios por WhatsApp"
+            >
+              <span>Consultar Servicios</span>
+            </WhatsAppButton>
           </div>
         </div>
       </section>
 
-      {/* Diagnostic Section */}
-      <section id="diagnostico" className="section-premium diagnostic-section">
+      {/* Premium Program Section Ultra Premium */}
+      <section id="programa-premium" className="section-premium premium-program-section">
         <div className="container">
           <div className="section-content">
             <div className="section-badge section-badge-white">
-              <span className="badge-icon">📊</span>
-              <span>Análisis Profesional</span>
-            </div>
-
-            <h3 className="section-title text-white">
-              Diagnóstico completo de <span className="text-gradient-gold">rentabilidad</span>
-            </h3>
-
-            <p className="section-subtitle text-white">
-              Antes de comenzar cualquier proceso, te ayudamos a analizar tu situación actual y descubrir cuánta rentabilidad estás dejando sobre la mesa.
-            </p>
-
-            <div className="free-badge">
-              <span className="free-icon">🎁</span>
-              <span className="free-text">Servicio valorado en 500 €, <strong>totalmente gratuito para ti</strong></span>
-            </div>
-          </div>
-
-          <div className="diagnostic-grid">
-            <div className="diagnostic-card">
-              <div className="card-icon">🔍</div>
-              <h5 className="card-title">Análisis de tu competencia</h5>
-              <p className="card-description">Evaluamos tu posición en el mercado</p>
-            </div>
-
-            <div className="diagnostic-card">
-              <div className="card-icon">💰</div>
-              <h5 className="card-title">Fórmulas para calcular precios</h5>
-              <p className="card-description">Metodología probada para pricing</p>
-            </div>
-
-            <div className="diagnostic-card">
-              <div className="card-icon">📈</div>
-              <h5 className="card-title">Calculadora de costes y márgenes</h5>
-              <p className="card-description">Herramientas precisas de análisis</p>
-            </div>
-
-            <div className="diagnostic-card">
-              <div className="card-icon">🎯</div>
-              <h5 className="card-title">Matriz O.P.E.</h5>
-              <p className="card-description">Qué Optimizar, Potenciar o Eliminar</p>
-            </div>
-          </div>
-
-          <div className="diagnostic-cta">
-            <div className="consultation-highlight">
-              <div className="consultation-icon">⚡</div>
-              <div className="consultation-text">
-                <h4>No es una charla comercial, es una consultoría real</h4>
-                <p>Una sola sesión y verás el negocio con otros ojos</p>
-              </div>
-            </div>
-
-            <WhatsAppButton className="btn-cta-secondary">
-              <span className="cta-icon">📲</span>
-              <span className="cta-text">Agendar ahora mi diagnóstico</span>
-            </WhatsAppButton>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Program Section */}
-      <section id="programa" className="section-premium program-section">
-        <div className="container">
-          <div className="section-content">
-            <div className="section-badge">
-              <span className="badge-icon">🏁</span>
-              <span>Programa Principal</span>
+              <span>Programa Premium</span>
             </div>
 
             <h3 className="section-title">
-              <span className="text-gradient-premium">Objetivo Empresario:</span>
+              <span className="text-gradient-gold">Objetivo Empresario</span>
               <br />
-              transforma tu <span className="text-blue-premium">empresa</span> en 14 semanas
+              Programa de Transformación Integral
             </h3>
 
             <p className="section-subtitle">
-              Un proceso diseñado para jefes de PYMES que quieren dejar de operar y empezar a escalar su negocio.
+              Para empresarios comprometidos que están hartos de ser esclavos de su propio negocio.
+              Conseguirás una transformación completa: reducir carga operativa en un 50%, aumentar facturación
+              y crear sistemas que funcionen sin ti.
             </p>
           </div>
 
-          <div className="program-grid">
-            <div className="benefits-column">
-              <div className="benefit-card">
-                <div className="benefit-icon">🧹</div>
-                <div className="benefit-content">
-                  <h5>Eliminar el caos operativo</h5>
-                  <p>Sistemas claros y organizados</p>
-                </div>
-              </div>
+          <article className="premium-card">
+            <div className="premium-price">Programa Premium</div>
+            <h4 style={{ fontSize: '2rem', fontWeight: '700', color: 'white', marginBottom: 'var(--space-6)', fontFamily: "'Playfair Display', serif" }}>
+              Transformación Completa en 12 Meses
+            </h4>
 
-              <div className="benefit-card">
-                <div className="benefit-icon">👥</div>
-                <div className="benefit-content">
-                  <h5>Crear procesos claros y delegar</h5>
-                  <p>Equipo autónomo y eficiente</p>
+            <div className="premium-features">
+              {premiumFeatures.map((feature, index) => (
+                <div key={`premium-${index}`} className="premium-feature">
+                  <h5>{feature.title}</h5>
+                  <p>{feature.description}</p>
                 </div>
-              </div>
-
-              <div className="benefit-card">
-                <div className="benefit-icon">📊</div>
-                <div className="benefit-content">
-                  <h5>Aumentar la rentabilidad</h5>
-                  <p>Márgenes optimizados y sostenibles</p>
-                </div>
-              </div>
-
-              <div className="benefit-card">
-                <div className="benefit-icon">🎯</div>
-                <div className="benefit-content">
-                  <h5>Formar al equipo en ventas</h5>
-                  <p>Fidelización y crecimiento</p>
-                </div>
-              </div>
-
-              <div className="benefit-card">
-                <div className="benefit-icon">🏆</div>
-                <div className="benefit-content">
-                  <h5>Construir una marca sólida</h5>
-                  <p>Diferenciación en el mercado</p>
-                </div>
-              </div>
-
-              <div className="highlight-text-premium">
-                <span className="highlight-decoration">✨</span>
-                <span className="highlight-message">ENTRE OTRAS COSAS!</span>
-                <span className="highlight-decoration">✨</span>
-              </div>
+              ))}
             </div>
 
-            <div className="program-details">
-              <div className="detail-card detail-card-blue">
-                <div className="detail-icon">🎓</div>
-                <h5>Duración inicial</h5>
-                <p>14 semanas de formación práctica</p>
-              </div>
-
-              <div className="detail-card detail-card-gold">
-                <div className="detail-icon">💼</div>
-                <h5>Objetivo a 12 meses</h5>
-                <p>Trabajar menos, ganar más y escalar tu negocio</p>
-              </div>
-
-              <div className="detail-card detail-card-emerald">
-                <div className="detail-icon">💎</div>
-                <h5>Inversión del programa</h5>
-                <p className="price-premium">12.599 €</p>
-              </div>
+            <div className="premium-guarantee">
+              <h5>Garantía Total + Primer Mes de Prueba</h5>
+              <p>
+                Si en 30 días no ves resultados tangibles, cancelas sin coste.
+                Si no consigues los objetivos al año, te devolvemos el importe íntegro.
+                Opciones de fraccionamiento disponibles.
+              </p>
             </div>
-          </div>
 
-          <div className="program-cta">
-            <WhatsAppButton className="btn-cta-main">
-              <span className="cta-icon">📞</span>
-              <span className="cta-text">Quiero más información del programa</span>
-            </WhatsAppButton>
-          </div>
+            <div style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}>
+              <WhatsAppButton
+                className="btn-cta-final"
+                aria-label="Solicitar información del programa premium por WhatsApp"
+              >
+                <span>Solicitar Información del Programa</span>
+              </WhatsAppButton>
+            </div>
+          </article>
         </div>
       </section>
 
-      {/* Guarantee Section */}
-      <section className="section-premium guarantee-section">
-        <div className="container">
-          <div className="section-content">
-            <div className="section-badge">
-              <span className="badge-icon">😬</span>
-              <span>Eliminamos tus dudas</span>
-            </div>
-
-            <h3 className="section-title">
-              &ldquo;Ya lo intenté antes... y no funcionó&rdquo;
-            </h3>
-
-            <p className="section-subtitle">
-              Muchos empresarios llegan a nosotros frustrados por cursos o asesorías que no les sirvieron.
-              Nosotros no damos teoría: <span className="text-emerald-premium">damos acompañamiento real</span> y resultados concretos.
-            </p>
-          </div>
-
-          <div className="guarantee-card">
-            <div className="guarantee-badge">
-              <div className="lock-icon">🔒</div>
-              <div className="lock-glow"></div>
-            </div>
-
-            <h4 className="guarantee-title">Garantía 100% Total</h4>
-            <p className="guarantee-text">
-              Si al terminar el proceso no has aumentado tus beneficios,
-              <span className="text-emerald-premium"> te devolvemos el 100% de lo que hayas pagado.</span>
-            </p>
-
-            <div className="guarantee-features">
-              <div className="guarantee-feature">
-                <span className="feature-icon">✅</span>
-                <span>Sin riesgo</span>
-              </div>
-              <div className="guarantee-feature">
-                <span className="feature-icon">💰</span>
-                <span>Reembolso total</span>
-              </div>
-              <div className="guarantee-feature">
-                <span className="feature-icon">🎯</span>
-                <span>Resultados garantizados</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
+      {/* Testimonials Section Ultra Premium */}
       <section id="testimonios" className="section-premium testimonials-section">
         <div className="container">
           <div className="section-content">
-            <div className="section-badge section-badge-white">
-              <span className="badge-icon">✨</span>
-              <span>Casos de éxito</span>
+            <div className="section-badge">
+              <span>Casos de Éxito</span>
             </div>
 
-            <h3 className="section-title text-white">
-              Esto es lo que dicen <span className="text-gradient-gold">empresarios como tú</span>
+            <h3 className="section-title">
+              Lo que dicen <span className="text-gradient-premium">empresarios transformados</span>
             </h3>
+
+            <p className="section-subtitle">
+              Resultados reales de empresarios que han conseguido la transformación completa
+              y ahora trabajan SOBRE su negocio, no EN su negocio.
+            </p>
           </div>
 
           <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-quote">&ldquo;</div>
-              <div className="testimonial-icon">💡</div>
-              <p className="testimonial-text">Ahora sé qué servicios me hacen perder dinero y cuáles potenciar.</p>
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-
-            <div className="testimonial-card">
-              <div className="testimonial-quote">&ldquo;</div>
-              <div className="testimonial-icon">⏰</div>
-              <p className="testimonial-text">Por fin tengo tiempo para pensar como dueño y no como empleado.</p>
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
-            </div>
-
-            <div className="testimonial-card">
-              <div className="testimonial-quote">&ldquo;</div>
-              <div className="testimonial-icon">🎯</div>
-              <p className="testimonial-text">Mi equipo está más motivado y mis clientes más fieles.</p>
-              <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
-            </div>
+            {testimonialsData.map((testimonial, index) => (
+              <article
+                key={`testimonial-${index}`}
+                className="testimonial-card"
+                style={{ animationDelay: `${testimonial.delay}ms` }}
+              >
+                <blockquote className="testimonial-text">
+                  "{testimonial.text}"
+                </blockquote>
+                <div className="testimonial-author">
+                  — {testimonial.author}
+                </div>
+              </article>
+            ))}
           </div>
 
-          <div className="testimonials-footer">
-            <div className="method-badge">
-              <span className="method-icon">🎯</span>
-              <span className="method-text">Esto no es suerte. Es método.</span>
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-16)' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--space-3)',
+              background: 'var(--gradient-text-gold)',
+              padding: 'var(--space-5) var(--space-10)',
+              borderRadius: 'var(--radius-full)',
+              fontWeight: '700',
+              fontSize: '1.3rem',
+              boxShadow: 'var(--shadow-gold)',
+              fontFamily: "'Playfair Display', serif",
+              color: 'white'
+            }}>
+              <span>Esto no es suerte. Es método.</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* Final CTA Section Ultra Premium */}
       <section className="section-premium final-cta-section">
         <div className="container">
           <div className="final-cta-content">
-            <div className="cta-badge">
-              <span className="badge-icon">✅</span>
-              <div className="badge-glow"></div>
-            </div>
-
             <h3 className="final-cta-title">
-              Da el primer paso para dejar de vender tu tiempo y
-              <span className="text-gradient-gold"> escala tu negocio</span>
+              Da el primer paso para dejar de ser empleado de tu empresa y
+              <br />
+              convertirte en el <span style={{ background: 'var(--gradient-text-gold)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>verdadero CEO</span>
             </h3>
 
             <p className="final-cta-subtitle">
-              Estás a una llamada de descubrir por qué tu empresa no está dando los resultados que esperas.
-              Te propongo una sesión real de diagnóstico
-              <span className="text-gold-premium">(valorada en 500 €)</span>
-              totalmente gratuita.
+              Estás a una conversación de descubrir exactamente qué está limitando el crecimiento de tu empresa.
+              Te ayudamos a identificar las oportunidades que estás perdiendo y el camino específico para
+              <span className="text-gold-premium"> transformar tu negocio completamente</span>.
             </p>
 
-            <div className="final-cta-features">
-              <div className="cta-feature">
-                <div className="feature-icon">🚀</div>
-                <span>Sin compromiso</span>
-              </div>
-              <div className="cta-feature">
-                <div className="feature-icon">💡</div>
-                <span>Resultados inmediatos</span>
-              </div>
-              <div className="cta-feature">
-                <div className="feature-icon">⏱️</div>
-                <span>Solo 90 minutos</span>
-              </div>
-            </div>
-
-            <div className="final-cta-button">
-              <WhatsAppButton className="btn-cta-final">
-                <span className="cta-icon">📲</span>
-                <span className="cta-text">Agendar diagnóstico por WhatsApp</span>
-                <div className="cta-pulse"></div>
+            <div style={{ textAlign: 'center' }}>
+              <WhatsAppButton
+                className="btn-cta-final"
+                aria-label="Comenzar transformación empresarial por WhatsApp"
+              >
+                <span>Comenzar Mi Transformación</span>
               </WhatsAppButton>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer-premium">
+      {/* Footer Ultra Premium */}
+      <footer className="footer-premium" role="contentinfo">
         <div className="container">
           <div className="footer-content">
             <div className="footer-logo">
               <div className="footer-logo-container">
                 <Image
                   src="/logo-proyectoceo.png"
-                  alt="ProyectoCEO Logo"
+                  alt="ProyectoCEO - Transformación Empresarial Premium"
                   className="footer-logo-image"
-                  width={60}
-                  height={60}
+                  width={56}
+                  height={56}
+                  sizes="56px"
+                  quality={95}
                 />
               </div>
               <div className="footer-logo-text">
@@ -537,14 +599,28 @@ export default function Home() {
             </p>
 
             <div className="footer-social">
-              <a href="#" className="social-link" aria-label="Email">
-                <span>📧</span>
+              <a
+                href="mailto:info@proyectoceo.com"
+                className="social-link"
+                aria-label="Enviar email a ProyectoCEO"
+              >
+                <span>@</span>
               </a>
-              <a href="#" className="social-link" aria-label="Phone">
-                <span>📱</span>
+              <a
+                href="tel:+34613121466"
+                className="social-link"
+                aria-label="Llamar a ProyectoCEO"
+              >
+                <span>Tel</span>
               </a>
-              <a href="#" className="social-link" aria-label="Website">
-                <span>🌐</span>
+              <a
+                href="https://proyectoceo.com"
+                className="social-link"
+                aria-label="Visitar sitio web oficial de ProyectoCEO"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Web</span>
               </a>
             </div>
 
@@ -555,17 +631,13 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/613121466"
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* Floating WhatsApp Button Ultra Premium */}
+      <WhatsAppButton
         className="whatsapp-float-premium"
-        aria-label="Contactar por WhatsApp"
+        aria-label="Botón flotante de contacto WhatsApp"
       >
-        <span className="float-icon">💬</span>
-        <div className="float-pulse"></div>
-      </a>
+        <span className="float-icon">WA</span>
+      </WhatsAppButton>
     </div>
   )
 }
